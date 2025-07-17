@@ -1,0 +1,35 @@
+# 🔧 Core dependencies
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+sqlalchemy
+psycopg2-binary  # For PostgreSQL
+
+# 🔐 Auth
+python-jose[cryptography]
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+
+# 🔐 OAuth2
+requests  # for google.auth.transport.requests
+
+# 🧠 LangChain RAG
+langchain
+langchain-community
+langchain-core
+sentence-transformers
+chromadb
+huggingface-hub
+langchain_chroma
+
+# 🧪 OpenAI
+openai
+
+# 🧪 Optional: If you use async OpenAI clients
+httpx
+
+# 📚 Token-based auth
+passlib[bcrypt]  # optional, if you hash passwords
+rank_bm25

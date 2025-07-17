@@ -1,0 +1,4 @@
+venv
+activate
+__pycache__
+*.pyc
