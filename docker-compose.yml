@@ -10,12 +10,6 @@ services:
       - mazu_network
     depends_on:
       - db
-  consumer:
-    build: ./consumer
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
   db:
     image: postgres:15-alpine
     container_name: postgres_db
