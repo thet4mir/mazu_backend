@@ -6,6 +6,8 @@ services:
     container_name: mazu_app
     ports:
       - "80:80"
+    env_file:
+      - .env
     networks:
       - mazu_network
     depends_on:
