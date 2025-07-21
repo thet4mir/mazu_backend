@@ -26,17 +26,8 @@ services:
       POSTGRES_DB: app_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - mazu_network
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
 
 volumes:
   postgres_data:
