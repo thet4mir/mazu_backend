@@ -25,7 +25,6 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
 
 networks:
   mazu_network:
