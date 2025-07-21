@@ -108,8 +108,47 @@ class Rag:
                 )
             )
     
+    async def generate(self, query: str)-> AsyncGenerator[str, None]:
+        combined_input = (
+            "Та Монгол Улсын төрийн байгууллагын өмнөговь аймаг дахь салбарын гомдол, санал хүсэлтийн хэлтэст ажилладаг албан ёсны мэргэжилтэн.\n"
+            "Таны үүрэг бол иргэдээс ирүүлсэн гомдол, санал, мэдээлэл хүссэн асуултад **албан ёсны, эелдэг, хүндэтгэлтэй, ойлгомжтой, товч тодорхой** хариу өгөх юм.\n\n"
+
+            "Дараах иргэнээс ирсэн гомдол/асуултад хариулна уу:\n"
+            f"{query}\n\n"
+
+            "Та дараах зааврын дагуу шууд иргэнд илгээхэд бэлэн, бүрэн боловсруулсан хариулт боловсруулна:\n"
+            "- Монгол хэл дээр\n"
+            "- Албан ёсны, бичгийн хэллэгтэй\n"
+            "- Эелдэг, хүндэтгэлтэй\n"
+            "- Товч бөгөөд тодорхой, ойлгомжтой\n"
+            "- Зөв бичгийн дүрмийн дагуу\n"
+            "- Хариулт нь өмнөговь аймгийн салбарын байр суурийг илэрхийлсэн байх\n"
+            "- Иргэнд илгээхэд шууд бэлэн байхаар бичих (дахин засварлах шаардлагагүй)\n\n"
+
+            "Хариулт:\n"
+        )
+
+        
+        accumulated = ""
+
+        try:
+            # Get the completion response
+            response = await self.client.chat.completions.create(
+                messages=[*self.message_history, {"role": "user", "content": combined_input}],
+                **self.settings
+            )
+            async for chunk in response:
+                if token := chunk.choices[0].delta.content or "":
+                    if not accumulated.endswith(token):
+                        accumulated += token
+                        # 4) yield just the new bit, so your SSE client/appends get only
+                        #    what was added this round
+                        yield token
+
+        except Exception as e:
+            print(f"Error getting response: {str(e)}")
+
     async def retriever(self, query: str, voice=False)-> AsyncGenerator[str, None]:
-        print(query)
         vector_retriever = self.db.as_retriever(search_kwargs={"k": 3})
         # Lexical retriever (BM25)
         bm25_retriever = BM25Retriever.from_documents(self.docs)

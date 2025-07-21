@@ -5,6 +5,7 @@ python-dotenv
 pydantic
 sqlalchemy
 psycopg2-binary  # For PostgreSQL
+alembic
 
 # 🔐 Auth
 python-jose[cryptography]
@@ -23,6 +24,7 @@ sentence-transformers
 chromadb
 huggingface-hub
 langchain_chroma
+python-multipart
 
 # 🧪 OpenAI
 openai
@@ -32,4 +34,5 @@ httpx
 
 # 📚 Token-based auth
 passlib[bcrypt]  # optional, if you hash passwords
+bcrypt==4.0.1
 rank_bm25
